@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peacock.website.frontend.usercenter.mapper.UserAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.peacock.website.frontend.usercenter.domain.UserAuth" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="USER_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="IDENTIFY_TYPE" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="IDENTIFIER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREDENTIAL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="VERIFIED" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="LAST_IP" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="LAST_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, IDENTIFY_TYPE, IDENTIFIER, CREDENTIAL, VERIFIED, LAST_IP, LAST_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuthExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_auths
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_auths
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_auths
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuthExample" >
+    delete from user_auths
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuth" >
+    insert into user_auths (ID, USER_ID, IDENTIFY_TYPE, 
+      IDENTIFIER, CREDENTIAL, VERIFIED, 
+      LAST_IP, LAST_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{identifyType,jdbcType=INTEGER}, 
+      #{identifier,jdbcType=VARCHAR}, #{credential,jdbcType=VARCHAR}, #{verified,jdbcType=INTEGER}, 
+      #{lastIp,jdbcType=VARCHAR}, #{lastTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuth" >
+    insert into user_auths
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="identifyType != null" >
+        IDENTIFY_TYPE,
+      </if>
+      <if test="identifier != null" >
+        IDENTIFIER,
+      </if>
+      <if test="credential != null" >
+        CREDENTIAL,
+      </if>
+      <if test="verified != null" >
+        VERIFIED,
+      </if>
+      <if test="lastIp != null" >
+        LAST_IP,
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyType != null" >
+        #{identifyType,jdbcType=INTEGER},
+      </if>
+      <if test="identifier != null" >
+        #{identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="credential != null" >
+        #{credential,jdbcType=VARCHAR},
+      </if>
+      <if test="verified != null" >
+        #{verified,jdbcType=INTEGER},
+      </if>
+      <if test="lastIp != null" >
+        #{lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuthExample" resultType="java.lang.Integer" >
+    select count(*) from user_auths
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_auths
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identifyType != null" >
+        IDENTIFY_TYPE = #{record.identifyType,jdbcType=INTEGER},
+      </if>
+      <if test="record.identifier != null" >
+        IDENTIFIER = #{record.identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.credential != null" >
+        CREDENTIAL = #{record.credential,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verified != null" >
+        VERIFIED = #{record.verified,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastIp != null" >
+        LAST_IP = #{record.lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastTime != null" >
+        LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_auths
+    set ID = #{record.id,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      IDENTIFY_TYPE = #{record.identifyType,jdbcType=INTEGER},
+      IDENTIFIER = #{record.identifier,jdbcType=VARCHAR},
+      CREDENTIAL = #{record.credential,jdbcType=VARCHAR},
+      VERIFIED = #{record.verified,jdbcType=INTEGER},
+      LAST_IP = #{record.lastIp,jdbcType=VARCHAR},
+      LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuth" >
+    update user_auths
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyType != null" >
+        IDENTIFY_TYPE = #{identifyType,jdbcType=INTEGER},
+      </if>
+      <if test="identifier != null" >
+        IDENTIFIER = #{identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="credential != null" >
+        CREDENTIAL = #{credential,jdbcType=VARCHAR},
+      </if>
+      <if test="verified != null" >
+        VERIFIED = #{verified,jdbcType=INTEGER},
+      </if>
+      <if test="lastIp != null" >
+        LAST_IP = #{lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.peacock.website.frontend.usercenter.domain.UserAuth" >
+    update user_auths
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      IDENTIFY_TYPE = #{identifyType,jdbcType=INTEGER},
+      IDENTIFIER = #{identifier,jdbcType=VARCHAR},
+      CREDENTIAL = #{credential,jdbcType=VARCHAR},
+      VERIFIED = #{verified,jdbcType=INTEGER},
+      LAST_IP = #{lastIp,jdbcType=VARCHAR},
+      LAST_TIME = #{lastTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

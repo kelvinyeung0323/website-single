@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peacock.website.frontend.usercenter.mapper.UserMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    <constructor >
+      <idArg column="MID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TYPE" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="SUBMIT_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    <constructor >
+      <idArg column="MID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TYPE" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="SUBMIT_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="CONTENT" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    MID, TITLE, TYPE, SUBMIT_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_messages
+    where MID = #{mid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_messages
+    where MID = #{mid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessageExample" >
+    delete from user_messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    insert into user_messages (MID, TITLE, TYPE, 
+      SUBMIT_TIME, CONTENT)
+    values (#{mid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    insert into user_messages
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        MID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessageExample" resultType="java.lang.Integer" >
+    select count(*) from user_messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_messages
+    <set >
+      <if test="record.mid != null" >
+        MID = #{record.mid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.submitTime != null" >
+        SUBMIT_TIME = #{record.submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update user_messages
+    set MID = #{record.mid,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=INTEGER},
+      SUBMIT_TIME = #{record.submitTime,jdbcType=TIMESTAMP},
+      CONTENT = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_messages
+    set MID = #{record.mid,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=INTEGER},
+      SUBMIT_TIME = #{record.submitTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    update user_messages
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where MID = #{mid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    update user_messages
+    set TITLE = #{title,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=INTEGER},
+      SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where MID = #{mid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.peacock.website.frontend.usercenter.domain.UserMessage" >
+    update user_messages
+    set TITLE = #{title,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=INTEGER},
+      SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP}
+    where MID = #{mid,jdbcType=VARCHAR}
+  </update>
+</mapper>
